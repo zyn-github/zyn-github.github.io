@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "docsify serve ./src",
-    "start_prod": "docsify serve -p 8099 ./src",
+    "start": "docsify serve ./docs",
+    "start_prod": "docsify serve -p 8099 ./docs",
     "start_pm2": "pm2 start --name jsdocsify npm --watch  -- run start_prod",
-    "push": "git add * && git commit -m 'update' && git push"
+    "push": "git add . && git commit -m 'update' && git push"
   },
   "keywords": [],
   "author": "",
