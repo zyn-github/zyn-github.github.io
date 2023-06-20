@@ -1,0 +1,15 @@
+{
+  "name": "gitee-blog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "docsify serve ./src",
+    "start_prod": "docsify serve -p 8099 ./src",
+    "start_pm2": "pm2 start --name jsdocsify npm --watch  -- run start_prod",
+    "push": "git add * && git commit -m 'update' && git push"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
