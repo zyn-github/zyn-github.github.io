@@ -1,6 +1,35 @@
 # linux日常使用
 
 
+#### 日常命令
+
+```text
+kill -9 pid 根据pid来杀死指定的进程,用来处理端口占用的情况
+
+grep -rn 'keyworld' [path] 递归查找当前文件夹下面的 包含关键字符串的文件
+
+netstat -tlunp 80  查看当前端口占用情况 mac 会异常
+
+which nginx 查看安装包可执行文件的路径
+
+whereis nginx 查看软件包安装路径
+
+whoami 查看当前系统的运行账户
+
+ls | grep 'keyworld' 使用管道将展示的文件进行过滤
+
+cat -n file 查看文件并显示行号
+
+npm config list 查看ngixn的配置信息
+
+md5sum file 用来计算文件的md5值
+
+stat 查看文件的详细信息 创建时间、修改时间
+
+locate 特定字符串 用于搜索整个电脑包含特定字符串的文件
+```
+
+
 #### 系统空间不够查看占用情况
 
 > [参考文档](https://www.cnblogs.com/insane-Mr-Li/p/11209345.html)
@@ -58,4 +87,55 @@ map auto_home     0Bi    0Bi    0Bi   100%       0          0  100%   /System/Vo
 .//node_modules/mockjs/bower.json:8:    "node_modules",
 .//node_modules/commander/package.json:24:  "_where": "/Users/zyn/nodeWork/mock/node_modules/mockjs",
 .//node_modules/commander/package.json:78:      "/node_modules/"
+```
+#### 文件压缩处理
+```text
+tar 
+
+解包：tar xvf FileName.tar
+打包：tar cvf FileName.tar DirName
+（注：tar是打包，不是压缩！）
+
+.gz
+解压1：gunzip FileName.gz
+解压2：gzip -d FileName.gz
+压缩：gzip FileName
+
+.tar.gz 和 .tgz
+解压：tar zxvf FileName.tar.gz
+压缩：tar zcvf FileName.tar.gz DirName
+
+.bz2
+解压1：bzip2 -d FileName.bz2
+解压2：bunzip2 FileName.bz2
+压缩： bzip2 -z FileName
+
+.tar.bz2
+解压：tar jxvf FileName.tar.bz2
+压缩：tar jcvf FileName.tar.bz2 DirName
+
+.bz
+解压1：bzip2 -d FileName.bz
+解压2：bunzip2 FileName.bz
+压缩：未知
+
+.tar.bz
+解压：tar jxvf FileName.tar.bz
+压缩：未知
+
+.Z
+解压：uncompress FileName.Z
+压缩：compress FileName
+
+.tar.Z
+解压：tar Zxvf FileName.tar.Z
+压缩：tar Zcvf FileName.tar.Z DirName
+
+.zip
+解压：unzip FileName.zip
+压缩：zip FileName.zip DirName
+
+.rar
+解压：rar x FileName.rar
+压缩：rar a FileName.rar DirName
 ```

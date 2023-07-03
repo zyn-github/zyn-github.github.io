@@ -1,3 +1,5 @@
 * [window](javascriptWork/children/window)
 * [import](javascriptWork/children/import)
 * [iframe](javascriptWork/children/iframe)
+* [promise](javascriptWork/children/promise)
+* [cjs、mjs](javascriptWork/children/cjsOrmjs)
