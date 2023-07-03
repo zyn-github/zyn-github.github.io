@@ -2,6 +2,85 @@
 
 > [参考文档](https://gitee.com/ligeyihayou_admin/codes/g3n1ce72swhkm50xvubt890)
 
+
+|  符号   | 描述  |
+|  ----  | ----  |
+| =  | 开头表示精确匹配 | 单元格 |
+| ^~  |  开头表示url以某个常规字符串开头，理解为匹配url路径即可，nginx不对url做编码，因此请求为/static/20%/aa,可以被规则 ^$ /static/ /aa 匹配到 |
+| ~  | 区分大小写的正则匹配 |
+| ~*  | 不区分大小写的正则匹配 |
+| !~ !~*  | 区分大小写不匹配及不区分大小写不匹配的正则 |
+| / !~*  | 通用匹配，任何请求都会匹配到 |
+
+
+|  匹配路径   | 规则  | 访问地址  | 描述  |
+|  ----  | ----  | ----  | ----  |
+| /login | 规则A | http://localhost/ | 将匹配规则 A | 单元格 |
+| = /login  | 规则B | http://localhost/login | 将匹配规则B,http://localhost/register 则匹配规则 H | 单元格 |
+| ^~ /static/  | 规则C | http://localhost/static/a.html | 将匹配规则 C | 单元格 |
+| ~ \.(gif\|jpg\|png\|js\|css)$  | http://localhost/a.gif, http://localhost/b.jpg | 将匹配规则D和规则E，但是规则 D 顺序优先，规则 E 不起作用，而 http://localhost/static/c.png 则优先匹配到规则 C | 单元格 | 单元格 |
+| ~* \.png$ | 规则E | http://localhost/a.PNG | 则匹配规则 E，而不会匹配规则 D，因为规则 E 不区分大小写 | 单元格 |
+| !~ \.xhtml$ | 规则F | 访问 http://localhost/a.xhtml | 不会匹配规则 F 和规则 G ，http://localhost/a.XHTML 不会匹配规则 G，因为不区分大小写。规则 F ，规则 G 属于排除法，符合匹配规则但是不会匹配到，所以想想看实际应用中哪里会用到。 | 单元格 |
+| !~* \.xhtml$ | 规则G | 单元格 | 单元格 | 单元格 |
+| / | 规则H | http://localhost/category/id/1111 | 单元格 | 单元格 |
+
+> [查看配置信息](https://gitee.com/ligeyihayou/nginx-config/tree/master)
+```text
+ servers 
+ 	1. gzip-server.conf 
+ 		->>nginx服务器配置 启用gzip压缩。
+ 		->>隐藏浏览器返回 Response Headers 中 Server: nginx 中的版本号。
+ 		->>禁用指定的请求方法。
+ 		->>添加浏览器返回的Header。
+ 		->>配置是否可以使用iframe。
+ 		->>配置页面可以加载的资源。
+ 	2. liudan-server.conf 
+ 		-> nginx开启目录文件列表。
+ 		-> 多个目录开启。
+ 	3. php-server.conf 
+ 		-> ngixn运行php项目.
+ 		-> 开启rewrite_log日志记录。
+ 	4. proxy-server.conf
+ 		-> nginx进行代理配置。
+ 		-> nginx代理种植cookie。
+ 	5. rewrite-server.conf nginx 
+ 		->rewrite配置规则。
+ 		->rewrite语法的详细介绍
+ 	6. website-server.conf nginx 
+ 		->区分移动端和PC端。
+ 	7. Access-server.conf nginx
+ 		-> 设置指定的域名进行跨域
+ 		-> 设置改服务的借口允许跨域
+```
+
+
+```text
+$args ： #这个变量等于请求行中的参数，同$query_string
+$content_length ： # 请求头中的Content-length字段。
+$content_type ： # 请求头中的Content-Type字段。
+$document_root ： # 当前请求在root指令中指定的值。
+$host ： # 请求主机头字段，否则为服务器名称。
+$http_user_agent ：#  客户端agent信息
+$http_cookie ： # 客户端cookie信息
+$limit_rate ： # 这个变量可以限制连接速率。
+$status  # 请求状态
+$body_bytes_sent # 发送字节
+$request_method ： # 客户端请求的动作，通常为GET或POST。
+$remote_addr ： # 客户端的IP地址。
+$remote_port ： # 客户端的端口。
+$remote_user ： # 已经经过Auth Basic Module验证的用户名。
+$request_filename ： # 当前请求的文件路径，由root或alias指令与URI请求生成。
+$scheme ： # HTTP方法（如http，https）。
+$server_protocol ： # 请求使用的协议，通常是HTTP/1.0或HTTP/1.1。
+$server_addr ： # 服务器地址，在完成一次系统调用后可以确定这个值。
+$server_name ： # 服务器名称。
+$server_port ： # 请求到达服务器的端口号。
+$request_uri ： # 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
+$uri ： # 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。
+$document_uri ： # 与$uri相同。
+```
+
+
 ```text
 1、location [=|~|~*|^~] /uri/ { … }
 location  = / {
@@ -151,7 +230,7 @@ permanent – 返回永久重定向的 HTTP 状态301
 因为 301 和 302 不能简单的只返回状态码，还必须有重定向的 URL，这就是 return 指令无法返回301, 302 的原因了。这里 last 和 break 区别有点难以理解：
  last 一般写在 server 和 if 中，而 break 一般使用在 location 中
  last 不终止重写后的 url 匹配，即新的 url 会再从 server 走一遍匹配流程，而 break终止重写后的匹配
-break 和 last 都能组织继续执行后面的 rewrite 指令
+break 和 last 都能阻止继续执行后面的 rewrite 指令
 
 5、if指令与全局变量
 语法为 if(condition){…}，对给定的条件 condition 进行判断。如果为真，大括号内的 rewrite 指令将被执行，if 条件 (conditon) 可以是如下任何内容：
@@ -251,4 +330,76 @@ $server_port ： # 请求到达服务器的端口号。
 $request_uri ： # 包含请求参数的原始URI，不包含主机名，如：”/foo/bar.php?arg=baz”。
 $uri ： # 不带请求参数的当前URI，$uri不包含主机名，如”/foo/bar.html”。
 $document_uri ： # 与$uri相同。
+```
+
+> 真实的用法
+
+```text
+server {
+        listen       80;
+        server_name  zyngn.test.xdf.cn;
+        default_type "text/html; charset=utf-8"; # 设置默认返回的类型
+        access_log /usr/local/nginx/logs/zyngn.test.xdf.cn.log combined;
+
+        location / {
+          # name is: A
+          # 因为所有的地址都以 / 开头，所以这条规则将匹配到所有请求
+          # 但是正则和最长字符串会优先匹配
+          set $content "这里是最低优先级的-> 【location /】 name is A request_uri:${request_uri}; request:${request}";
+          return 200 $content;
+        }
+
+        location  =/pikaqiu {
+          # name is: B
+          # 该优先级高于  location / 
+          # 精确匹配 /xxx ，主机名后面不能带任何字符串
+          # 可以匹配 (/pikaqiu/、/pikaqiu/xdsda) 只要是一级目录中存在 pikaqiu 后面不管是什么都会匹配到
+          set $content "=/pikaqiu -> 【=/pikaqiu】 name is B (request_uri:${request_uri}; request:${request})";
+          return 200 $content;
+        }
+
+        location /docs/ {
+          # name is: C
+          # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
+          # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条 （E会覆盖这一条数据）
+          # 可以匹配（/ddada/docs/dsada、docs/dsada）
+          set $content "-> /docs/【/docs/】name is C (request_uri:${request_uri}; request:${request})";
+          return 200 $content;
+        }
+
+        location /pikaqiu/ {
+          # name is: D 
+          # D的优先级高于B
+          # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
+          # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条
+          # 可以匹配（/ddada/pikaqiu/dsada、pikaqiu/dsada）
+          set $content " /pikaqiu/-> 【/pikaqiu/】 name is D (request_uri:${request_uri}; request:${request})";
+          return 200 $content;
+        }
+
+        location ~ /docs/ {
+          # name is: E
+          # 如果这条记录不存在就会匹配 C
+          # 这里的配置方式与 C 类似只是这里多了 区分大小写的正则匹配
+          # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
+          # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条
+           set $content "~ /docs/-> 【~ /docs/ 正则 ~ (区分大小写的正则匹配) 修饰了】 name is E (request_uri:${request_uri}; request:${request})";
+            return 200 $content;
+        }
+
+        location ~ /docs/ABc {
+          # name is: F
+          # 匹配任何以 /documents/ 开头的地址，匹配符合以后，还要继续往下搜索
+          # 只有后面的正则表达式没有匹配到时，这一条才会采用这一条
+            set $content "~ /docs/Abc-> 【 ~ /docs/Abc】 name is F (request_uri:${request_uri}; request:${request})";
+            return 200 $content;
+        }
+
+        
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+    }
+
 ```
