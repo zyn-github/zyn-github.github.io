@@ -106,3 +106,12 @@ git merge --abort 撤销本地未提交合并
 git branch -D demo_dev //删除本地分支
 git push origin --delete demo_dev  //删除远程分支
 ```
+
+
+#### 5、日常问题
+```text
+➜  gituse git:(master) ✗ git pull
+fatal: refusing to merge unrelated histories
+➜  gituse git:(master) ✗ git pull --allow-unrelated-histories
+Merge made by the 'ort' strategy.
+```
