@@ -96,7 +96,7 @@ console.log(filesize(1024 * 1024 * 1024 * 1024)); // 1.1 TB
 		spacer = descriptor.spacer !== void 0 ? descriptor.spacer : unix ? "" : " "; // 用来最后确认用什么标识符组合 [1, 'kb'].join(spacer)
 		symbols = descriptor.symbols || descriptor.suffixes || {};
 		standard = base === 2 ? descriptor.standard || "jedec" : "jedec"; // 转换标准
-		output = descriptor.output || "string"; // 输出类型
+		output = descriptor.output || "string"; // 返回值类型
 		full = descriptor.fullform === true;
 		fullforms = descriptor.fullforms instanceof Array ? descriptor.fullforms : [];
 		e = descriptor.exponent !== void 0 ? descriptor.exponent : -1; // 指数 取值范围是 0<= e <=symbol.jedec.length
