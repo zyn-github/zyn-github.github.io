@@ -2,18 +2,12 @@
 
 ```code
 const utils = {
-    timeFormat(ms) {
-        const diff = ((ms) / 60000).toFixed(2);
-        const [minute, second] = diff.split('.');
-        if (Number(minute) > 0) {
-            const hour = (minute / 60).toFixed(2);
-            if (hour >= 1) {
-                const [h, m] = hour.split('.');
-                return `${h}小时${m}分钟${second}秒`;
-            }
-            if (minute / 60) { return `${minute}分钟${second}秒`; }
-        }
-        return `${diff}秒`;
+    timeFormat(mss) {
+        const days = parseInt(mss / (1000 * 60 * 60 * 24));
+        const hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = parseInt((mss % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = (mss % (1000 * 60)) / 1000;
+        return (days > 0 ? days + '天' : '') + (hours > 0 ? hours + '小时' : '') + minutes + '分钟' + seconds + '秒';
     },
     timeDiff(start, stop) {
         if (start && stop) {
@@ -22,5 +16,5 @@ const utils = {
         return 0;
     },
 }
-utils.timeDiff('2023-07-12 11:24:40', '2023-07-12 11:26:18'); // 	1分钟63秒
+utils.timeDiff('2023-07-12 11:24:40', '2023-07-12 11:26:18'); // 	1分钟38秒
 ```
