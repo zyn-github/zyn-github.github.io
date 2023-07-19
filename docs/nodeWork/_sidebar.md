@@ -9,3 +9,7 @@
 * [node:RPC](nodeWork/children/nodeRpc)
 * [node:proxy](nodeWork/children/proxy)
 * [node:buffer](nodeWork/children/buffer)
+* [linux:svn](nodeWork/children/svn)
+* [linux:ftp](nodeWork/children/ftp)
+* [mac:mongodb](nodeWork/children/mongodb)
+* [mac:mysql](nodeWork/children/mysql)
