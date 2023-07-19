@@ -353,3 +353,28 @@ console.log(process.env)
 
   // 将process.env 传递到 child_process.spawn options中的env即可
 ```
+
+##  linux下配置环境变量无效
+```text
+一、问题产生的原因如下
+   在系统中设置环境变量 vim /etc/profile、vim ~/.bash_profile,完成之后执行source /etc/profile、source ~/.bash_profile生效，但是重启之后就无效了。
+
+
+   分析原因是，在终端启动的时候没有使用 /etc/profile 中的环境变量无效，也就是需要自动执行一步 source /etc/profile。
+
+   在linux下面每个终端被启动会涉及到一个自动加载的配置文件的，将上面的 source /etc/profile 添加到该配置文件中即可。
+
+   1、查看当前所使用的终端类型。
+   echo $SHELL // 返回 /bin/bash 说明使用的bash、如果mac可能是/bin/zsh，不管是什么 都会存在 vim ~/.bashrc
+
+   bash 终端存在的是 vim ~/.bashrc
+   zsh 终端存在的是 vim ~/.zshrc
+   // ~/.[终端名字]rc
+
+   在vim ~/.bashrc 添加 source /etc/profile 即可
+
+   if [ -f /etc/bashrc ]; then
+        . /etc/bashrc
+        source /etc/profile
+   fi
+```

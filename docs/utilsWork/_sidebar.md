@@ -1,4 +1,5 @@
 * [浏览器工具](utilsWork/children/browser.md)
 * [服务器工具](utilsWork/children/server.md)
+* [scp工具](utilsWork/children/scp.md)
 * [版本管理](utilsWork/children/git_version.md)
 * [时间计算](utilsWork/children/time.md)
