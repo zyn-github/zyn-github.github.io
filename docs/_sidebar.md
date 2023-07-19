@@ -4,3 +4,5 @@
 * [工具类](utilsWork/util)
 * [框架组](vueWork/children/vue2)
 * [源码组](sourceWork/source)
+* [容器组](dockerWork/docker)
+* [babel](babelWork/babel)
