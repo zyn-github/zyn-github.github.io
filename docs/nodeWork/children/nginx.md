@@ -403,3 +403,30 @@ server {
     }
 
 ```
+
+#### nginx开启文件浏览功能
+
+```code
+location /logs_leader {
+  alias /neworiental/wxlogger/db/;
+	autoindex on;
+	add_header Cache-Control no-store;
+  utoindex_exact_size off;
+	#autoindex_localtime on;
+	autoindex_format html;
+  # 下面三个配置是用来强行指定文件下载
+	#add_header Content-Disposition: attachment;
+	#add_header Content-Disposition attachment;
+  #add_header Content-Type application/octet-stream;
+	autoindex_localtime on;
+	charset utf-8,gbk;
+}
+```
+>如果上面配置添加之后访问文件的时候还是直接下载
+
+```code
+// 我这里访问的文件后缀是 .log，这个时候需要再 mime.types 添加对应的解析配置
+// nginx/mime.types
+eg：text/plain                            log;
+```
+完成上述配置重新启动即可
